@@ -4,7 +4,7 @@ random_text() {
 }
 
 clean_board() {
-    rm -rf "$dir"
+    rm -rf $dir
 }
 
 create_board() {
@@ -31,13 +31,43 @@ create_board() {
     fi   
 }        
 
+fill_board() {
+    local directory=$1
+    local mode=$2 
+
+    for dir in "$directory"/*; do
+        if [ -d "$dir" ]; then
+            fill_board $dir $mode
+        elif [ -f "$dir" ] && [[ "$(basename "$dir")" != *.* ]]; then
+            echo "Modificando: $dir"
+            case $mode in 
+                "encrypted")    
+                    gpg --batch --yes --passphrase "hoyo" -c $dir
+                    # ex decifrado no olvidar: gpg --batch --yes --passphrase "hoyo" -d -o Pev.descifrado Pev.gpg
+                    rm $dir
+                    ;;
+                "signed")
+                    openssl enc -aes-256-cbc -salt -in $dir -out $dir.enc -pass pass:hoyo -pbkdf2
+                    # openssl enc -aes-256-cbc -d -in kDq.enc -out decrypted.txt -pass pass:hoyo -pbkdf2
+                    rm $dir
+                    ;;      
+                *)
+                    ;;
+            esac
+        fi
+    done
+
+}
+
 
 # ---------------------
 
-# Setup
+# Setup testing
 dir="game_board"
+mode="encrypted"
 clean_board
-create_board $dir 3 4 5
+create_board $dir 2 2 3
+fill_board $dir $mode
 
 # Material
-#  aux 5 : para game_board es el mismo codigo
+#  aux 5 : para game_board es el mismo codigo que p1

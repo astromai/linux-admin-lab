@@ -39,7 +39,6 @@ fill_board() {
         if [ -d "$dir" ]; then
             fill_board $dir $mode
         elif [ -f "$dir" ] && [[ "$(basename "$dir")" != *.* ]]; then
-            echo "Modificando: $dir"
             case $mode in 
                 "encrypted")    
                     gpg --batch --yes --passphrase "hoyo" -c $dir
@@ -64,7 +63,7 @@ fill_board() {
 
 # Setup testing
 dir="game_board"
-mode="encrypted"
+mode="signed"
 clean_board
 create_board $dir 2 2 3
 fill_board $dir $mode

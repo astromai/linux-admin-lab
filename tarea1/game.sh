@@ -106,7 +106,6 @@ game() {
     create_board $dir $depth $width $files
     fill_board "$dir" "$mode"
     key=$(place_treasure "$y" "$mode")
-    echo "$key"
 
     echo ""
     echo "El tesoro ya ha sido escondido, ahora a buscarlo..."

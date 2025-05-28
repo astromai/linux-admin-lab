@@ -4,6 +4,7 @@ random_text() {
 }
 
 clean_board() {
+    local dir=$1
     rm -rf $dir
 }
 
@@ -62,11 +63,12 @@ fill_board() {
 # ---------------------
 
 # Setup testing
-dir="game_board"
-mode="signed"
-clean_board
-create_board $dir 2 2 3
-fill_board $dir $mode
+#y="game_board"
+#mode="name"
+#clean_board $y
+#dir="game_board"
+#create_board $dir 2 2 3
+#fill_board $dir $mode
 
 # Material
 #  aux 5 : para game_board es el mismo codigo que p1

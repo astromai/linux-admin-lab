@@ -83,7 +83,7 @@ encrypt_gpg() {
     local passphrase="CC5308"
     gpg --batch --yes --passphrase "$passphrase" -c "$dir"
     rm "$dir"
-    echo "$passphrase"
+    echo "$passphrase $dir"
 }
 
 encrypt_openssl() {
@@ -91,7 +91,7 @@ encrypt_openssl() {
     local passphrase="CC5309"
     openssl enc -aes-256-cbc -salt -in "$dir" -out "$dir".enc -pass pass:"$passphrase" -pbkdf2
     rm "$dir"
-    echo "$passphrase"
+    echo "$passphrase $dir"
 }
 
 place_treasure() { 
@@ -121,19 +121,54 @@ place_treasure() {
 }
 
 verify(){
-    local expected=$1
-    local input=$2
-
-    if [ "$expected" == "$input" ]; then
-        echo 1
-    else 
-        echo 0    
-    fi
+    local mode=$1
+    local expected=$2
+    local input=$3 
+    
+    case $mode in 
+        "name")
+            input=$(echo -n "$input" | tr -d '\n' | xargs)
+            if [ "$expected" == "$input" ]; then
+                echo 1
+            else 
+                echo 0    
+            fi
+            ;;
+        "content")
+            if [ "$expected" == "$input" ]; then
+                echo 1
+            else 
+                echo 0    
+            fi
+            ;;
+        "checksum")
+            if [ "$expected" == "$input" ]; then
+                echo 1
+            else 
+                echo 0    
+            fi
+            ;;
+        "encrypted")
+            if [ "$expected" == "$input" ]; then
+                echo 1
+            else 
+                echo 0    
+            fi
+            ;; 
+        "signed")
+            if [ "$expected" == "$input" ]; then
+                echo 1
+            else 
+                echo 0    
+            fi
+            ;; 
+    esac 
 }
 # ---------------------
 
 # Setup testing
-dir="game_board"
-mode="encrypted"
-key=$(place_treasure $dir $mode)
-verify $key "CC5308"
+#dir="game_board"
+#mode="name"
+#key=$(place_treasure $dir $mode)
+#echo $key
+#verify $mode "$key" "$key"

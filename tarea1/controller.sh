@@ -120,9 +120,20 @@ place_treasure() {
     echo "$i"
 }
 
+verify(){
+    local expected=$1
+    local input=$2
+
+    if [ "$expected" == "$input" ]; then
+        echo 1
+    else 
+        echo 0    
+    fi
+}
 # ---------------------
 
 # Setup testing
 dir="game_board"
-mode="signed"
-place_treasure $dir $mode
+mode="encrypted"
+key=$(place_treasure $dir $mode)
+verify $key "CC5308"

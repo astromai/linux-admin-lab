@@ -19,5 +19,5 @@ make run
 
 ## Nota
 
-La estructura del archivo `shell.c` es solo una sugerencia, pueden realizar los cambios que consideren necesarios. Es posible que también deban agregar funciones o condiciones adicionales para cumplir con los requisitos del laboratorio.
+No complete la tarea, debería estar funcional la p3 pero no `history` el cual no comprendi porque no funcionaba.
 
